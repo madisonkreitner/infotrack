@@ -77,9 +77,9 @@ namespace Googler.Controllers
         [Route("/html")]
         [ProducesResponseType(statusCode: 200, type: typeof(string))]
         [ProducesResponseType(statusCode: 400)]
-        public async Task<string> GetHtml()
+        public async Task<HtmlDocument> GetExampleDotCom()
         {
-            string requestUri = $"{_httpConfig.Value?.Endpoint}?num=100&q=efiling+integration";
+            string requestUri = $"http://www.example.com";
             using HttpRequestMessage request = new(HttpMethod.Get, requestUri);
 
             try
@@ -92,7 +92,10 @@ namespace Googler.Controllers
                     throw new InvalidOperationException($"Failed to get data from Google. {requestUri} {@response} {errorResponseBody}");
                 }
                 string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                return responseBody;
+
+                HtmlDocument document = new(responseBody);
+                document.LoadElements();
+                return document;
             }
             catch (Exception e)
             {
