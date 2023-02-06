@@ -45,10 +45,10 @@ components:
       type: object
       properties:
         domainMentionCount:
-          type: number
+          type: integer
           example: 12345
         pageMentionCount:
-          type: number
+          type: integer
           example: 6789
 servers:
   # Added by API Auto Mocking Plugin
