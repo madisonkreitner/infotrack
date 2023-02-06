@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  description: |
+    This is Googler API. It contains methods to perform various operations with search engines.
+    You can find out more about Swagger at
+    [http://swagger.io](http://swagger.io) or on
+    [irc.freenode.net, #swagger](http://swagger.io/irc/).
+  version: "1.0.0"
+  title: Googler
+tags:
+  - name: statistics
+    description: Perform operations on keyword statistics
+paths:
+  /statistics:
+    get:
+      tags:
+        - statistics
+      summary: Gets statistics about google search results given a query and a keyword to look for. This operation will provide support for OData queries
+      operationId: getStatistics
+      parameters:
+        - name: query
+          in: query
+          description: The query to pass the search engine
+          required: true
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          description: The keyword to find statistics on
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statistics'
+        '400':
+          description: Bad request. Confirm input data and try again.
+components:
+  schemas:
+    Statistics:
+      type: object
+      properties:
+        domainMentionCount:
+          type: number
+          example: 12345
+        pageMentionCount:
+          type: number
+          example: 6789
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://googler.infotrack.com/v1

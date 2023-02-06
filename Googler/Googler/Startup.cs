@@ -11,6 +11,8 @@ using System.Threading;
 using System;
 using Googler.Services;
 using Googler.Models;
+using Googler.Services.Html;
+using Googler.Services.Google;
 
 namespace Googler
 {
@@ -57,6 +59,9 @@ namespace Googler
             AddHealthcheck(services);
 
             services.AddHttpClient();
+
+            services.AddScoped<IHtmlService, HtmlService>();
+            services.AddScoped<IGoogleService, GoogleService>();
 
             services.Configure<ForwardedHeadersOptions>(options =>
             {
