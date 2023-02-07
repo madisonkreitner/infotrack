@@ -18,7 +18,8 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
     const [searching, setSearching] = useState(false);
     const [statistics, setStatistics] = useState<Statistics | undefined>(undefined);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
         statisticsApi.getStatistics(keywords, website)
             .then((response: AxiosResponse<Statistics, any>) => {
                 setStatistics(response.data);
@@ -40,48 +41,50 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                 <Typography variant="h6" gutterBottom>
                     Enter some parameters and see what comes back!
                 </Typography>
-                <div style={{ display: 'flex', paddingTop: 10, textAlign: "left", alignItems: "end" }}>
-                    <Typography sx={{flex: 2}} variant="body1" gutterBottom>
-                        Keywords
-                    </Typography>
-                    <Input
-                        fullWidth
-                        placeholder="Keywords to search for..."
-                        inputProps={ariaLabel}
-                        required
-                        onChange={(e) => setKeywords(e.target.value)}
-                        style={{flex:4}}
-                    />
-                </div>
-                <div style={{ display: 'flex', paddingTop: 10, textAlign: "left", alignItems: "end" }}>
-                    <Typography sx={{flex: 2}} variant="body1" gutterBottom >
-                        Google results count
-                    </Typography>
-                    <Input
-                        fullWidth
-                        defaultValue="100"
-                        inputProps={ariaLabel}
-                        required
-                        onChange={(e) => setNumResults(parseInt(e.target.value, 10))}
-                        style={{flex:4}}
-                    />
-                </div>
-                <div style={{ display: 'flex', paddingTop: 10, textAlign: "left", alignItems: "end" }}>
-                    <Typography sx={{flex: 2}} variant="body1" gutterBottom>
-                        Website to quant
-                    </Typography>
-                    <Input
-                        fullWidth
-                        defaultValue="infotrack"
-                        inputProps={ariaLabel}
-                        required
-                        onChange={(e) => setWebsite(e.target.value)}
-                        style={{flex:4}}
-                    />
-                </div>
-                <Button onClick={handleSubmit} variant="contained" type="submit" sx={{ marginTop: 1 }}>
-                    Search
-                </Button>
+                <form onSubmit={handleSubmit}>
+                    <div style={{ display: 'flex', paddingTop: 10, textAlign: "left", alignItems: "end" }}>
+                        <Typography sx={{ flex: 2 }} variant="body1" gutterBottom>
+                            Keywords
+                        </Typography>
+                        <Input
+                            fullWidth
+                            placeholder="Keywords to search for..."
+                            inputProps={ariaLabel}
+                            required
+                            onChange={(e) => setKeywords(e.target.value)}
+                            style={{ flex: 4 }}
+                        />
+                    </div>
+                    <div style={{ display: 'flex', paddingTop: 10, textAlign: "left", alignItems: "end" }}>
+                        <Typography sx={{ flex: 2 }} variant="body1" gutterBottom >
+                            Google results count
+                        </Typography>
+                        <Input
+                            fullWidth
+                            defaultValue="100"
+                            inputProps={ariaLabel}
+                            required
+                            onChange={(e) => setNumResults(parseInt(e.target.value, 10))}
+                            style={{ flex: 4 }}
+                        />
+                    </div>
+                    <div style={{ display: 'flex', paddingTop: 10, textAlign: "left", alignItems: "end" }}>
+                        <Typography sx={{ flex: 2 }} variant="body1" gutterBottom>
+                            Website to quant
+                        </Typography>
+                        <Input
+                            fullWidth
+                            defaultValue="infotrack"
+                            inputProps={ariaLabel}
+                            required
+                            onChange={(e) => setWebsite(e.target.value)}
+                            style={{ flex: 4 }}
+                        />
+                    </div>
+                    <Button variant="contained" type="submit" sx={{ marginTop: 1 }}>
+                        Search
+                    </Button>
+                </form>
             </Box>
             <ToastContainer />
         </Container>
