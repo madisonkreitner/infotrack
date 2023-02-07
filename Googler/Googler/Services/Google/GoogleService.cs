@@ -36,7 +36,7 @@ namespace Googler.Services.Google
             _htmlService = htmlService;
         }
 
-        public async Task<List<string>> GetQueryStatistics(string query, string keyword)
+        public async Task<Statistics> GetQueryStatistics(string query, string keyword)
         {
             string requestUri = $"{Options?.Endpoint}?num=100&q={query}";
             using HttpRequestMessage request = new(HttpMethod.Get, requestUri);
@@ -70,7 +70,8 @@ namespace Googler.Services.Google
                         domains.Add(d);
                     }
                 }
-                return domains;
+                Statistics s = new();
+                return s;
             }
             catch (Exception e)
             {

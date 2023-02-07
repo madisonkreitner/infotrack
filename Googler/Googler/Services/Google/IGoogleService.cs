@@ -1,7 +1,9 @@
-﻿namespace Googler.Services.Google
+﻿using Googler.Models;
+
+namespace Googler.Services.Google
 {
     public interface IGoogleService
     {
-        Task<List<string>> GetQueryStatistics(string query, string keyword);
+        Task<Statistics> GetQueryStatistics(string query, string keyword);
     }
 }

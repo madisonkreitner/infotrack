@@ -1,3 +1,4 @@
+using Googler.Models;
 using Googler.Services.Google;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,7 @@ namespace Googler.Controllers
         [Route("/querystatistics")]
         [ProducesResponseType(statusCode: 200, type: typeof(string))]
         [ProducesResponseType(statusCode: 400)]
-        public async Task<List<string>> GetQueryStatistics()
+        public async Task<Statistics> GetQueryStatistics()
         {
             try
             {
