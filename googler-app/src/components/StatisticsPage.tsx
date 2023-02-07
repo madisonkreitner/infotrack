@@ -16,11 +16,30 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
     const [keywords, setKeywords] = useState("");
     const [website, setWebsite] = useState("infotrack");
     const [numResults, setNumResults] = useState(100);
-    const [searching, setSearching] = useState(false);
     const [fetching, setFetching] = useState(false);
     const [searchResults, setSearchResults] = useState<SearchResult[] | undefined>(undefined);
 
-    const handleSubmit = async (event: any) => {
+    // create useEffect for when website changes...
+
+    function rgbaToHexString(r:number,g:number,b:number,a:number) {
+        let rs: string = r.toString(16);
+        let gs: string = g.toString(16);
+        let bs: string = b.toString(16);
+        let as: string = Math.round(a * 255).toString(16);
+      
+        if (rs.length == 1)
+          rs = "0" + r;
+        if (gs.length == 1)
+          gs = "0" + g;
+        if (bs.length == 1)
+          bs = "0" + b;
+        if (as.length == 1)
+          as = "0" + a;
+      
+        return "#" + rs + gs + bs + as;
+      }
+
+    async function handleSubmit(event: any) {
         event.preventDefault();
         setFetching(true);
         searchResultsApi.getSearchResults(keywords, numResults)
@@ -29,9 +48,97 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                 setFetching(false);
             }).catch((error: any) => {
                 toast.error(`Error getting statistics from api. Message: ${error}`);
+                const dummydata: SearchResult[] = [
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "infotrack.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "infotrack.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "infotrack.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "infotrack.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "infotrack.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "infotrack.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                    {
+                        domain: "example.com"
+                    },
+                ]
+                setSearchResults(dummydata);
                 setFetching(false);
             }
             );
+    }
+
+    function getBackgroundColor(index: number): import("csstype").Property.BackgroundColor | undefined {
+        if (searchResults && index < searchResults.length) {
+            const result: SearchResult = searchResults[index];
+            if (website && result.domain?.includes(website)) {
+                // this is a correct result, calculate the color
+                const greenStrength = Math.trunc(((index / searchResults.length) * -255) + 255);
+                const redStrength = Math.trunc(((index / searchResults.length) * 255));
+                return rgbaToHexString(redStrength, greenStrength, 0, 0.75);
+            }
+        }
+        return rgbaToHexString(255, 255, 255, 255);
     }
 
     return (
@@ -75,7 +182,7 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                     </div>
                     <div style={{ display: 'flex', paddingTop: 10, textAlign: "left", alignItems: "end" }}>
                         <Typography sx={{ flex: 2 }} variant="body1" gutterBottom>
-                            Website to quant
+                            Find statistics on...
                         </Typography>
                         <Input
                             fullWidth
@@ -103,7 +210,7 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                                     <List
                                         height={height}
                                         width={width}
-                                        itemSize={46}
+                                        itemSize={40}
                                         itemCount={searchResults.length}
                                         overscanCount={5}
                                         style={{
@@ -113,7 +220,14 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                                         {({ data, index, style }) => {
                                             return (
                                                 <li style={style}>
-                                                    <div style={{display: "flex", justifyContent: "space-between", textAlign:"left"}}>
+                                                    <div style={{
+                                                        display: "flex", 
+                                                        justifyContent: "space-between", 
+                                                        textAlign:"left", 
+                                                        backgroundColor: getBackgroundColor(index),
+                                                        padding:5,
+                                                        borderRadius: 5
+                                                    }}>
                                                         <div style={{flex: 1}}>{index + 1}</div>
                                                         <div style={{flex: 10}}>{searchResults[index]?.domain}</div>
                                                     </div>
