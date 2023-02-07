@@ -15,7 +15,7 @@
 /coverage
 
 # production
-/build
+googler-app/build/*
 
 # misc
 .DS_Store

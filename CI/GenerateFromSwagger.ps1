@@ -26,18 +26,21 @@ function Main {
             }
             java -jar .\swagger-codegen-cli.jar generate -i "$yamlfilepath" -l aspnetcore -Dmodels --model-package "Models" -DpackageName="$packageName" -o ".\src\"
             copy-item -Path ".\src\$packageName\Models\*" -Destination $dest -Recurse
-            Remove-Item -Path ".\src\" -Recurse
         }
     }
 
     function GenerateTypescriptFetchModels {
         Param ([string]$yamlfilepath, [string]$dest)
         Process {
-            java -jar .\swagger-codegen-cli.jar generate --model-package "Models" -i "$yamlfilepath" -l typescript-fetch -o "$dest"
+            java -jar .\swagger-codegen-cli.jar generate --model-package "models" -i "$yamlfilepath" -l typescript-axios -o "$dest"
             Remove-Item -Path "$dest\.swagger-*" -Recurse
             Remove-Item -Path "$dest\git_push.sh" -Recurse
             Remove-Item -Path "$dest\.gitignore" -Recurse
         }
+    }
+
+    function RemoveTempFiles {
+        Remove-Item -Path ".\src\" -Recurse
     }
 
     if (IsPackageInstalled("java") -ne $true) {
@@ -49,7 +52,8 @@ function Main {
 
     # Googler API
     GenerateCSharpModels "Googler" "..\Googler\Googler\Controllers\googlerApi.yaml" "..\Googler\Googler\Models"
-    # GenerateTypescriptFetchModels "..\Googler\Googler\Controllers\googlerApi.yaml" ".\reactapp\src\services\googler-api"
+    GenerateTypescriptFetchModels "..\Googler\Googler\Controllers\googlerApi.yaml" "..\googler-app\src\services\googler-api"
+    RemoveTempFiles
     ########################################
 }
 

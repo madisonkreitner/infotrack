@@ -18,15 +18,15 @@ paths:
       summary: Gets statistics about google search results given a query and a keyword to look for. This operation will provide support for OData queries
       operationId: getStatistics
       parameters:
-        - name: query
+        - name: keywords
           in: query
-          description: The query to pass the search engine
+          description: The keywords to pass the search engine
           required: true
           schema:
             type: string
-        - name: keyword
+        - name: website
           in: query
-          description: The keyword to find statistics on
+          description: The website
           required: true
           schema:
             type: string
@@ -44,12 +44,15 @@ components:
     Statistics:
       type: object
       properties:
-        domainMentionCount:
+        topTenCount:
           type: integer
-          example: 12345
-        pageMentionCount:
+          example: 4
+        topTwentyFiveCount:
           type: integer
-          example: 6789
+          example: 4
+        totalMentions:
+          type: integer
+          example: 50
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
