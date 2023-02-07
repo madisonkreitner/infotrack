@@ -41,7 +41,7 @@ namespace Googler.Models
         {
             var sb = new StringBuilder();
             sb.Append("class SearchResult {\n");
-            sb.Append("  Domain: ").Append(Domain).Append("\n");
+            sb.Append("  Domain: ").Append(Domain).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }

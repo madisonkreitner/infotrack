@@ -1,6 +1,6 @@
-import { Box, Button, Container, Input, ListItem, ListItemText, Typography } from "@mui/material";
+import { Box, Button, Container, Input, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
+import { FixedSizeList as List } from 'react-window';
 import { SearchResultsApi } from "../services/googler-api/api";
 import { SearchResult } from "../services/googler-api";
 import { ToastContainer, toast } from 'react-toastify';
@@ -26,28 +26,7 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
     const [searchResults, setSearchResults] = useState<SearchResult[] | undefined>(undefined);
     const [statistics, setStatistics] = useState<Statistics | undefined>(undefined);
 
-    useEffect(() => calculateStatistics(), [website, searchResults]);
-    useEffect(() => setWebsite("infotrack.com"),[searchResults]);
-
-    function rgbaToHexString(r: number, g: number, b: number, a: number) {
-        let rs: string = r.toString(16);
-        let gs: string = g.toString(16);
-        let bs: string = b.toString(16);
-        let as: string = Math.round(a * 255).toString(16);
-
-        if (rs.length == 1)
-            rs = "0" + r;
-        if (gs.length == 1)
-            gs = "0" + g;
-        if (bs.length == 1)
-            bs = "0" + b;
-        if (as.length == 1)
-            as = "0" + a;
-
-        return "#" + rs + gs + bs + as;
-    }
-
-    function calculateStatistics() {
+    useEffect(() => {
         if (website && website.length > 0 && searchResults) {
             let total = 0;
             let t25 = 0;
@@ -71,6 +50,25 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
         } else {
             setStatistics(undefined);
         }
+    }, [website, searchResults]);
+    useEffect(() => setWebsite("infotrack.com"),[searchResults]);
+
+    function rgbaToHexString(r: number, g: number, b: number, a: number) {
+        let rs: string = r.toString(16);
+        let gs: string = g.toString(16);
+        let bs: string = b.toString(16);
+        let as: string = Math.round(a * 255).toString(16);
+
+        if (rs.length === 1)
+            rs = "0" + r;
+        if (gs.length === 1)
+            gs = "0" + g;
+        if (bs.length === 1)
+            bs = "0" + b;
+        if (as.length === 1)
+            as = "0" + a;
+
+        return "#" + rs + gs + bs + as;
     }
 
     async function handleSubmit(event: any) {

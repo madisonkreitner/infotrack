@@ -22,8 +22,8 @@ namespace Googler
     /// </summary>
     public class Startup
     {
-        private readonly string _ServiceTitle = "Googler Service";
-        private readonly string _ServiceDesc = "Manages various functions of scraping google searches.";
+        private readonly string _serviceTitle = "Googler Service";
+        private readonly string _serviceDesc = "Manages various functions of scraping google searches.";
         private readonly WaitHandle _waitHandler = new ManualResetEvent(false);
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace Googler
             });
             services.AddSwaggerDocument(o =>
             {
-                o.Title = _ServiceTitle;
-                o.Description = _ServiceDesc;
+                o.Title = _serviceTitle;
+                o.Description = _serviceDesc;
             });
 
             services.Configure<HttpClientConfiguration>(Configuration.GetSection(nameof(HttpClientConfiguration)));
