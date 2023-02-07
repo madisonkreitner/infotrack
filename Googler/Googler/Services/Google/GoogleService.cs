@@ -36,9 +36,9 @@ namespace Googler.Services.Google
             _htmlService = htmlService;
         }
 
-        public async Task<Statistics> GetQueryStatistics(string query, string keyword)
+        public async Task<IEnumerable<SearchResult>> GetSearchResults(string query, int numResults)
         {
-            string requestUri = $"{Options?.Endpoint}?num=100&q={query}";
+            string requestUri = $"{Options?.Endpoint}?num={numResults}&q={query}";
             using HttpRequestMessage request = new(HttpMethod.Get, requestUri);
 
             try
@@ -61,16 +61,15 @@ namespace Googler.Services.Google
                         links.Add(l);
                     }
                 }
-                List<string> domains = new();
+                List<SearchResult> s = new();
                 foreach (string link in links)
                 {
                     string d = UrlHelper.GetDomainName(link);
                     if (!string.IsNullOrWhiteSpace(d))
                     {
-                        domains.Add(d);
+                        s.Add(new(){ Domain = d });
                     }
                 }
-                Statistics s = new();
                 return s;
             }
             catch (Exception e)

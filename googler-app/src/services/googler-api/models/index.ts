@@ -1,1 +1,1 @@
-export * from './statistics';
+export * from './search-result';

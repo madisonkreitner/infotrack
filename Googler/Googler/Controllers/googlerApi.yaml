@@ -8,51 +8,47 @@ info:
   version: "1.0.0"
   title: Googler
 tags:
-  - name: statistics
+  - name: searchResults
     description: Perform operations on keyword statistics
 paths:
-  /statistics:
+  /searchResults:
     get:
       tags:
-        - statistics
-      summary: Gets statistics about google search results given a query and a keyword to look for. This operation will provide support for OData queries
-      operationId: getStatistics
+        - searchResults
+      summary: Gets search results from google given a query and a keyword to look for. This operation will provide support for OData queries
+      operationId: getSearchResults
       parameters:
-        - name: keywords
+        - name: queryString
           in: query
           description: The keywords to pass the search engine
           required: true
           schema:
             type: string
-        - name: website
+        - name: count
           in: query
-          description: The website
+          description: Number of results to fetch
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: Successful operation.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Statistics'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
         '400':
           description: Bad request. Confirm input data and try again.
 components:
   schemas:
-    Statistics:
+    SearchResult:
       type: object
       properties:
-        topTenCount:
-          type: integer
-          example: 4
-        topTwentyFiveCount:
-          type: integer
-          example: 4
-        totalMentions:
-          type: integer
-          example: 50
+        domain:
+          type: string
+                
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking

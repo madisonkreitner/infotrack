@@ -1,10 +1,12 @@
 using Googler.Models;
 using Googler.Services.Google;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Googler.Controllers
 {
     [ApiController]
+    [EnableCors()]
     [Route("[controller]")]
     public class GooglerController : ControllerBase
     {
@@ -24,14 +26,14 @@ namespace Googler.Controllers
         /// <response code="200">Successful operation.</response>
         /// <response code="400">Unsuccessful operation.</response>
         [HttpGet]
-        [Route("/querystatistics")]
+        [Route("/searchResults")]
         [ProducesResponseType(statusCode: 200, type: typeof(string))]
         [ProducesResponseType(statusCode: 400)]
-        public async Task<Statistics> GetQueryStatistics()
+        public async Task<IEnumerable<SearchResult>> GetSearchResults([FromQuery]string queryString, [FromQuery]int count = 100)
         {
             try
             {
-                return await _googleService.GetQueryStatistics("efiling+integration","www.infotrack.com");
+                return await _googleService.GetSearchResults(queryString, count);
             }
             catch (Exception e)
             {

@@ -4,6 +4,6 @@ namespace Googler.Services.Google
 {
     public interface IGoogleService
     {
-        Task<Statistics> GetQueryStatistics(string query, string keyword);
+        Task<IEnumerable<SearchResult>> GetSearchResults(string query, int numResults);
     }
 }

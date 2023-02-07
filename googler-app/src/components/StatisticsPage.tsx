@@ -1,7 +1,7 @@
 import { Box, Button, Container, Grid, Input, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { StatisticsApi } from "../services/googler-api/api";
-import { Statistics } from "../services/googler-api";
+import { SearchResultsApi } from "../services/googler-api/api";
+import { SearchResult } from "../services/googler-api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { response } from "express";
@@ -9,7 +9,7 @@ import { AxiosResponse } from "axios";
 
 const ariaLabel = { 'aria-label': 'description' };
 
-const statisticsApi = new StatisticsApi({ basePath: process.env.REACT_APP_GOOGLER_API_BASE_PATH });
+const searchResultsApi = new SearchResultsApi({ basePath: process.env.REACT_APP_GOOGLER_API_BASE_PATH });
 
 const StatisticsPage: React.FunctionComponent<{}> = () => {
     const [keywords, setKeywords] = useState("");
@@ -17,14 +17,14 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
     const [numResults, setNumResults] = useState(100);
     const [searching, setSearching] = useState(false);
     const [fetching, setFetching] = useState(false);
-    const [statistics, setStatistics] = useState<Statistics | undefined>(undefined);
+    const [searchResults, setSearchResults] = useState<SearchResult[] | undefined>(undefined);
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         setFetching(true);
-        statisticsApi.getStatistics(keywords, website)
-            .then((response: AxiosResponse<Statistics, any>) => {
-                setStatistics(response.data);
+        searchResultsApi.getSearchResults(keywords, numResults)
+            .then((response: AxiosResponse<SearchResult[], any>) => {
+                setSearchResults(response.data);
                 setFetching(false);
             }).catch((error: any) => {
                 toast.error(`Error getting statistics from api. Message: ${error}`);

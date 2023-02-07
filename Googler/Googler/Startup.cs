@@ -13,6 +13,7 @@ using Googler.Services;
 using Googler.Models;
 using Googler.Services.Html;
 using Googler.Services.Google;
+using Microsoft.Extensions.Options;
 
 namespace Googler
 {
@@ -24,6 +25,7 @@ namespace Googler
         private readonly string _ServiceTitle = "Googler Service";
         private readonly string _ServiceDesc = "Manages various functions of scraping google searches.";
         private readonly WaitHandle _waitHandler = new ManualResetEvent(false);
+        static private readonly int _exposedPort = 50342;
 
         /// <summary>
         ///  Constructor
@@ -48,6 +50,13 @@ namespace Googler
             services.AddSingleton(_waitHandler);
 
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
             services.AddSwaggerDocument(o =>
             {
                 o.Title = _ServiceTitle;
@@ -89,6 +98,7 @@ namespace Googler
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
@@ -97,6 +107,7 @@ namespace Googler
                 //Map healthcheck endpoint. Will return either 200 or 503 depending on state
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions() { AllowCachingResponses = false });
             });
+
 
             ConfigureOpenApi(app);
 

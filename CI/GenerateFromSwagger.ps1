@@ -25,7 +25,7 @@ function Main {
                 New-Item -ItemType Directory -Path $tempModelsPath
             }
             java -jar .\swagger-codegen-cli.jar generate -i "$yamlfilepath" -l aspnetcore -Dmodels --model-package "Models" -DpackageName="$packageName" -o ".\src\"
-            copy-item -Path ".\src\$packageName\Models\*" -Destination $dest -Recurse
+            copy-item -Path ".\src\src\$packageName\Models\*" -Destination $dest -Recurse
         }
     }
 

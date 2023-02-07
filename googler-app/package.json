@@ -1,7 +1,8 @@
 {
   "name": "googler-app",
   "version": "0.1.0",
-  "private": true,
+  "private": true,  
+  "proxy": "http://localhost:50342",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",

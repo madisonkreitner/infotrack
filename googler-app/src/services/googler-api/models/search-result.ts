@@ -14,25 +14,13 @@
 /**
  * 
  * @export
- * @interface Statistics
+ * @interface SearchResult
  */
-export interface Statistics {
+export interface SearchResult {
     /**
      * 
-     * @type {number}
-     * @memberof Statistics
+     * @type {string}
+     * @memberof SearchResult
      */
-    topTenCount?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Statistics
-     */
-    topTwentyFiveCount?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Statistics
-     */
-    totalMentions?: number;
+    domain?: string;
 }

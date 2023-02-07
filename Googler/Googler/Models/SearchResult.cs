@@ -24,21 +24,14 @@ namespace Googler.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Statistics : IEquatable<Statistics>
+    public partial class SearchResult : IEquatable<SearchResult>
     { 
         /// <summary>
-        /// Gets or Sets DomainMentionCount
+        /// Gets or Sets Domain
         /// </summary>
 
-        [DataMember(Name="domainMentionCount")]
-        public int? DomainMentionCount { get; set; }
-
-        /// <summary>
-        /// Gets or Sets PageMentionCount
-        /// </summary>
-
-        [DataMember(Name="pageMentionCount")]
-        public int? PageMentionCount { get; set; }
+        [DataMember(Name="domain")]
+        public string Domain { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -47,9 +40,8 @@ namespace Googler.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class Statistics {\n");
-            sb.Append("  DomainMentionCount: ").Append(DomainMentionCount).Append("\n");
-            sb.Append("  PageMentionCount: ").Append(PageMentionCount).Append("\n");
+            sb.Append("class SearchResult {\n");
+            sb.Append("  Domain: ").Append(Domain).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -72,29 +64,24 @@ namespace Googler.Models
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Statistics)obj);
+            return obj.GetType() == GetType() && Equals((SearchResult)obj);
         }
 
         /// <summary>
-        /// Returns true if Statistics instances are equal
+        /// Returns true if SearchResult instances are equal
         /// </summary>
-        /// <param name="other">Instance of Statistics to be compared</param>
+        /// <param name="other">Instance of SearchResult to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Statistics other)
+        public bool Equals(SearchResult other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    DomainMentionCount == other.DomainMentionCount ||
-                    DomainMentionCount != null &&
-                    DomainMentionCount.Equals(other.DomainMentionCount)
-                ) && 
-                (
-                    PageMentionCount == other.PageMentionCount ||
-                    PageMentionCount != null &&
-                    PageMentionCount.Equals(other.PageMentionCount)
+                    Domain == other.Domain ||
+                    Domain != null &&
+                    Domain.Equals(other.Domain)
                 );
         }
 
@@ -108,10 +95,8 @@ namespace Googler.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (DomainMentionCount != null)
-                    hashCode = hashCode * 59 + DomainMentionCount.GetHashCode();
-                    if (PageMentionCount != null)
-                    hashCode = hashCode * 59 + PageMentionCount.GetHashCode();
+                    if (Domain != null)
+                    hashCode = hashCode * 59 + Domain.GetHashCode();
                 return hashCode;
             }
         }
@@ -119,12 +104,12 @@ namespace Googler.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(Statistics left, Statistics right)
+        public static bool operator ==(SearchResult left, SearchResult right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Statistics left, Statistics right)
+        public static bool operator !=(SearchResult left, SearchResult right)
         {
             return !Equals(left, right);
         }
