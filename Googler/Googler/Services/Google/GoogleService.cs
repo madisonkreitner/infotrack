@@ -51,7 +51,7 @@ namespace Googler.Services.Google
                     throw new InvalidOperationException($"Failed to get data from Google. {requestUri} {@response} {errorResponseBody}");
                 }
                 string responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                List<string> tags = _htmlService.GetATagsFromHtml(responseBody);
+                List<string> tags = _htmlService.GetSearchResultsFromHtml(responseBody);
                 List<string> links = new();
                 foreach (string tag in tags) 
                 {

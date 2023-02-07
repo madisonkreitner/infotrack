@@ -2,7 +2,7 @@
 {
     public interface IHtmlService
     {
-        List<string> GetATagsFromHtml(string html);
+        List<string> GetSearchResultsFromHtml(string html);
         string GetHrefFromATag(string tag);
     }
 }

@@ -4,38 +4,52 @@ namespace Googler.Services.Html
 {
     public class HtmlService : IHtmlService
     {
+        private const string _linkIndicator = "kCrYT\"><a";
+        private const string _div = "<div";
+        private const string _closingDiv = "</div>";
+        private const string _atag = "<a ";
         public HtmlService() { }
 
-        public List<string> GetATagsFromHtml(string html)
+        public List<string> GetSearchResultsFromHtml(string html)
         {
+            // after this indicator, we hit the search section
             List<string> result = new();
             int i = 0;
+            bool foundLink = false;
+            int level = 0;
             while (i < html.Length)
             {
                 StringBuilder s = new();
                 char c = html[i];
-                if (c == '<')
+
+                if (i + _linkIndicator.Length < html.Length && html.Substring(i, _linkIndicator.Length) == _linkIndicator)
                 {
-                    // increment and check for the a tag
-                    i++;
-                    // check for a
-                    if (i < html.Length && html[i] == 'a')
+                    // found a div containing a link
+                    foundLink = true;
+
+                    // go to the beginning of the a tag
+                    i += _linkIndicator.Length - 3;
+                }
+                else if (foundLink)
+                {
+                    if (i + _atag.Length < html.Length && html.Substring(i, _atag.Length) == _atag)
                     {
-                        i++;
-                        // check for space following a
-                        if (i < html.Length && html[i] == ' ')
+                        // found an atag, skip it
+                        i += _atag.Length;
+                        s.Append("<a ");
+
+                        // get the rest of the tag
+                        while (i < html.Length && html[i] != '>')
                         {
-                            s.Append("<a ");
-                            // get the rest of the tag
-                            while (i < html.Length && html[i] != '>')
-                            {
-                                s.Append(html[i]);
-                                i++;
-                            }
-                            s.Append('>');
-                            result.Add(s.ToString());
-                            s.Clear();
+                            s.Append(html[i]);
+                            i++;
                         }
+                        s.Append('>');
+
+                        // save it and reset the string builder
+                        result.Add(s.ToString());
+                        s.Clear();
+                        foundLink = false;
                     }
                 }
                 // go to the next character
