@@ -16,15 +16,19 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
     const [website, setWebsite] = useState("infotrack");
     const [numResults, setNumResults] = useState(100);
     const [searching, setSearching] = useState(false);
+    const [fetching, setFetching] = useState(false);
     const [statistics, setStatistics] = useState<Statistics | undefined>(undefined);
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
+        setFetching(true);
         statisticsApi.getStatistics(keywords, website)
             .then((response: AxiosResponse<Statistics, any>) => {
                 setStatistics(response.data);
+                setFetching(false);
             }).catch((error: any) => {
                 toast.error(`Error getting statistics from api. Message: ${error}`);
+                setFetching(false);
             }
             );
     }
@@ -81,8 +85,8 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                             style={{ flex: 4 }}
                         />
                     </div>
-                    <Button variant="contained" type="submit" sx={{ marginTop: 1 }}>
-                        Search
+                    <Button disabled={fetching} variant="contained" type="submit" sx={{ marginTop: 1 }}>
+                        { fetching ? "Searching..." : "Search" }
                     </Button>
                 </form>
             </Box>
