@@ -1,7 +1,7 @@
 {
   "name": "googler-app",
   "version": "0.1.0",
-  "private": true,  
+  "private": true,
   "proxy": "http://localhost:50342",
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -20,6 +20,8 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.1",
+    "react-virtualized-auto-sizer": "^1.0.7",
+    "react-window": "^1.8.8",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -46,5 +48,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-virtualized-auto-sizer": "^1.0.1",
+    "@types/react-window": "^1.8.5"
   }
 }

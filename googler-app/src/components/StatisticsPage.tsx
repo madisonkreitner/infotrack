@@ -1,10 +1,11 @@
-import { Box, Button, Container, Grid, Input, Typography } from "@mui/material";
+import { Box, Button, Container, Input, ListItem, ListItemText, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { FixedSizeList as List, ListChildComponentProps } from 'react-window';
 import { SearchResultsApi } from "../services/googler-api/api";
 import { SearchResult } from "../services/googler-api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { response } from "express";
+import AutoSizer from "react-virtualized-auto-sizer";
 import { AxiosResponse } from "axios";
 
 const ariaLabel = { 'aria-label': 'description' };
@@ -86,9 +87,45 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                         />
                     </div>
                     <Button disabled={fetching} variant="contained" type="submit" sx={{ marginTop: 1 }}>
-                        { fetching ? "Searching..." : "Search" }
+                        {fetching ? "Searching..." : "Search"}
                     </Button>
                 </form>
+                {
+                    searchResults ? (
+                        <Box
+                            sx={{ width: '100%', height: 600, bgcolor: 'background.paper', marginTop: 4 }}
+                        >
+                            <Typography variant="h5" gutterBottom >
+                                Results
+                            </Typography>
+                            <AutoSizer>
+                                {({ height, width }) => (
+                                    <List
+                                        height={height}
+                                        width={width}
+                                        itemSize={46}
+                                        itemCount={searchResults.length}
+                                        overscanCount={5}
+                                        style={{
+                                            listStyle: "none",
+                                        }}
+                                    >
+                                        {({ data, index, style }) => {
+                                            return (
+                                                <li style={style}>
+                                                    <div style={{display: "flex", justifyContent: "space-between", textAlign:"left"}}>
+                                                        <div style={{flex: 1}}>{index + 1}</div>
+                                                        <div style={{flex: 10}}>{searchResults[index]?.domain}</div>
+                                                    </div>
+                                                </li>
+                                            );
+                                        }}
+                                    </List>
+                                )}
+                            </AutoSizer>
+                        </Box>
+                    ) : <></>
+                }
             </Box>
             <ToastContainer />
         </Container>
