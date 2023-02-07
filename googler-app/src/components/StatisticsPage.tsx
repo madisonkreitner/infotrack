@@ -20,13 +20,14 @@ interface Statistics {
 
 const StatisticsPage: React.FunctionComponent<{}> = () => {
     const [keywords, setKeywords] = useState("");
-    const [website, setWebsite] = useState("infotrack");
+    const [website, setWebsite] = useState("infotrack.com");
     const [numResults, setNumResults] = useState(100);
     const [fetching, setFetching] = useState(false);
     const [searchResults, setSearchResults] = useState<SearchResult[] | undefined>(undefined);
     const [statistics, setStatistics] = useState<Statistics | undefined>(undefined);
 
     useEffect(() => calculateStatistics(), [website, searchResults]);
+    useEffect(() => setWebsite("infotrack.com"),[searchResults]);
 
     function rgbaToHexString(r: number, g: number, b: number, a: number) {
         let rs: string = r.toString(16);
@@ -103,7 +104,7 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
         <Container maxWidth="md">
             <Box sx={{ my: 6 }}>
                 <Typography variant="h4" component="h1" gutterBottom>
-                    InfoTrack Google Statisticss
+                    InfoTrack Google Statistics
                 </Typography>
                 <Typography variant="h5" gutterBottom>
                     Search google for some awesome stuff
@@ -196,9 +197,9 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                                         </Typography>
                                         <Input
                                             fullWidth
-                                            defaultValue="infotrack"
                                             inputProps={ariaLabel}
                                             required
+                                            value={website}
                                             onChange={(e) => setWebsite(e.target.value)}
                                             style={{ flex: 4 }}
                                         />
