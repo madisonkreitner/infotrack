@@ -7,7 +7,7 @@ namespace Googler.Controllers
 {
     [ApiController]
     [EnableCors()]
-    [Route("[controller]")]
+    [Route("/")]
     public class GooglerController : ControllerBase
     {
         private readonly ILogger<GooglerController> _logger;
