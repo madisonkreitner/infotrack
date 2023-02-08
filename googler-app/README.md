@@ -2,7 +2,7 @@
 
 run `npm start` to open the local development server
 
-Create a .env.local in the root of the react project and set the api endpoint to localhost/[exposedPort]
+Create a .env.local in the root of the react project and set the api endpoint to localhost/[exposedPort]. This will allow to make requests to your local development server.
 
 # Getting Started with Create React App
 
