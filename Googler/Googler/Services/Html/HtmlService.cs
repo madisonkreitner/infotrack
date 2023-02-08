@@ -16,7 +16,6 @@ namespace Googler.Services.Html
             List<string> result = new();
             int i = 0;
             bool foundLink = false;
-            int level = 0;
             while (i < html.Length)
             {
                 StringBuilder s = new();

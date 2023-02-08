@@ -25,7 +25,6 @@ namespace Googler
         private readonly string _ServiceTitle = "Googler Service";
         private readonly string _ServiceDesc = "Manages various functions of scraping google searches.";
         private readonly WaitHandle _waitHandler = new ManualResetEvent(false);
-        static private readonly int _exposedPort = 50342;
 
         /// <summary>
         ///  Constructor
