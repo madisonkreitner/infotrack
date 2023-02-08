@@ -1,3 +1,9 @@
+# This is the front end application
+
+run `npm start` to open the local development server
+
+Create a .env.local in the root of the react project and set the api endpoint to localhost/[exposedPort]
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
