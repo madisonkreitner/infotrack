@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AutoSizer from "react-virtualized-auto-sizer";
 import { AxiosResponse } from "axios";
+import rgbaToHexString from "../helpers/helpers";
 
 const ariaLabel = { 'aria-label': 'description' };
 
@@ -52,24 +53,6 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
         }
     }, [website, searchResults]);
     useEffect(() => setWebsite("infotrack.com"),[searchResults]);
-
-    function rgbaToHexString(r: number, g: number, b: number, a: number) {
-        let rs: string = r.toString(16);
-        let gs: string = g.toString(16);
-        let bs: string = b.toString(16);
-        let as: string = Math.round(a * 255).toString(16);
-
-        if (rs.length === 1)
-            rs = "0" + r;
-        if (gs.length === 1)
-            gs = "0" + g;
-        if (bs.length === 1)
-            bs = "0" + b;
-        if (as.length === 1)
-            as = "0" + a;
-
-        return "#" + rs + gs + bs + as;
-    }
 
     async function handleSubmit(event: any) {
         event.preventDefault();
