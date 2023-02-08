@@ -43,7 +43,7 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                         t25++;
                     }
                     total++;
-                    places.push(i+1);
+                    places.push(i + 1);
                 }
             }
             setStatistics({
@@ -207,38 +207,40 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                                             </Typography>
                                         </Box> : <></>
                                     }
-                                    <hr />
-                                    {places ?
-                                        <Box
-                                            sx={{ width: '100%', height: 400 }}
-                                        >
-                                            <div style={{
-                                                display:"flex",
-                                                flexDirection:"row",
-                                            }}>
-                                                <Typography variant="body1" sx={{ mb: 1 }}>
-                                                    <b>{website}</b> appeared at these places in the list:
-                                                </Typography>
-                                                <List
-                                                    height={300}
-                                                    width={300}
-                                                    itemSize={30}
-                                                    itemCount={places.length}
-                                                    overscanCount={5}
-                                                    style={{
-                                                        listStyle: "none",
-                                                    }}
-                                                >
-                                                    {({ data, index, style }) => {
-                                                        return (
-                                                            <li style={style}>
-                                                                {places[index]}
-                                                            </li>
-                                                        );
-                                                    }}
-                                                </List>
-                                            </div>
-                                        </Box> : <></>
+                                    {places && places.length > 0 ?
+                                        <div>
+                                            <hr />
+                                            <Box
+                                                sx={{ width: '100%', height: 400 }}
+                                            >
+                                                <div style={{
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                }}>
+                                                    <Typography variant="body1" sx={{ mb: 1 }}>
+                                                        <b>{website}</b> appeared at these places in the list:
+                                                    </Typography>
+                                                    <List
+                                                        height={300}
+                                                        width={300}
+                                                        itemSize={30}
+                                                        itemCount={places.length}
+                                                        overscanCount={5}
+                                                        style={{
+                                                            listStyle: "none",
+                                                        }}
+                                                    >
+                                                        {({ data, index, style }) => {
+                                                            return (
+                                                                <li style={style}>
+                                                                    {places[index]}
+                                                                </li>
+                                                            );
+                                                        }}
+                                                    </List>
+                                                </div>
+                                            </Box>
+                                        </div> : <></>
                                     }
                                 </Box>
                             </div>
