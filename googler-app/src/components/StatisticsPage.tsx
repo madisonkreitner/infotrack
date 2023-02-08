@@ -26,12 +26,14 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
     const [fetching, setFetching] = useState(false);
     const [searchResults, setSearchResults] = useState<SearchResult[] | undefined>(undefined);
     const [statistics, setStatistics] = useState<Statistics | undefined>(undefined);
+    const [places, setPlaces] = useState<Array<number> | undefined>(undefined);
 
     useEffect(() => {
         if (website && website.length > 0 && searchResults) {
             let total = 0;
             let t25 = 0;
             let t10 = 0;
+            let places: number[] = [];
             for (let i = 0; i < searchResults.length; i++) {
                 if (searchResults[i].domain?.includes(website)) {
                     if (i < 10) {
@@ -41,6 +43,7 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                         t25++;
                     }
                     total++;
+                    places.push(i+1);
                 }
             }
             setStatistics({
@@ -48,16 +51,19 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                 topTwentyFiveCount: t25,
                 totalCount: total
             });
+            setPlaces(places);
         } else {
             setStatistics(undefined);
+            setPlaces(undefined);
         }
     }, [website, searchResults]);
-    useEffect(() => setWebsite("infotrack.com"),[searchResults]);
+    useEffect(() => setWebsite("infotrack.com"), [searchResults]);
 
     async function handleSubmit(event: any) {
         event.preventDefault();
         setFetching(true);
         setStatistics(undefined);
+        setPlaces(undefined);
         searchResultsApi.getSearchResults(keywords, numResults)
             .then((response: AxiosResponse<SearchResult[], any>) => {
                 setSearchResults(response.data);
@@ -170,7 +176,7 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                                     </AutoSizer>
                                 </Box>
                                 <Box
-                                    sx={{ width: '100%', height: 600 }}
+                                    sx={{ width: '100%', height: 600, padding: 2 }}
                                 >
                                     <div style={{ display: 'flex', padding: 10, textAlign: "left", alignItems: "end" }}>
                                         <Typography sx={{ flex: 4, mx: 2 }} variant="body1" gutterBottom>
@@ -186,7 +192,7 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                                         />
                                     </div>
                                     {statistics ?
-                                        <Box sx={{ width: '100%', height: 600 }}>
+                                        <Box sx={{ width: '100%', height: 150 }}>
                                             <Typography variant="h6">
                                                 Statistics
                                             </Typography>
@@ -199,6 +205,39 @@ const StatisticsPage: React.FunctionComponent<{}> = () => {
                                             <Typography variant="subtitle1">
                                                 Total: {statistics.totalCount}
                                             </Typography>
+                                        </Box> : <></>
+                                    }
+                                    <hr />
+                                    {places ?
+                                        <Box
+                                            sx={{ width: '100%', height: 400 }}
+                                        >
+                                            <div style={{
+                                                display:"flex",
+                                                flexDirection:"row",
+                                            }}>
+                                                <Typography variant="body1" sx={{ mb: 1 }}>
+                                                    <b>{website}</b> appeared at these places in the list:
+                                                </Typography>
+                                                <List
+                                                    height={300}
+                                                    width={300}
+                                                    itemSize={30}
+                                                    itemCount={places.length}
+                                                    overscanCount={5}
+                                                    style={{
+                                                        listStyle: "none",
+                                                    }}
+                                                >
+                                                    {({ data, index, style }) => {
+                                                        return (
+                                                            <li style={style}>
+                                                                {places[index]}
+                                                            </li>
+                                                        );
+                                                    }}
+                                                </List>
+                                            </div>
                                         </Box> : <></>
                                     }
                                 </Box>
